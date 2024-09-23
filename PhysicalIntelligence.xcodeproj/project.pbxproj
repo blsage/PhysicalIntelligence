@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		284203462CA10DCE00B3F99E /* BenKit in Frameworks */ = {isa = PBXBuildFile; productRef = 284203452CA10DCE00B3F99E /* BenKit */; };
+		284203832CA1225D00B3F99E /* BenKit in Frameworks */ = {isa = PBXBuildFile; productRef = 284203822CA1225D00B3F99E /* BenKit */; };
+		28CD72C42CA1249600D08DBC /* BenKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28CD72C32CA1249600D08DBC /* BenKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		284203302CA10AF800B3F99E /* PhysicalIntelligence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalIntelligence.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalIntelligence.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		284203322CA10AF800B3F99E /* PhysicalIntelligence */ = {
+		284203702CA1207700B3F99E /* PhysicalIntelligence */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PhysicalIntelligence;
 			sourceTree = "<group>";
@@ -23,29 +24,30 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2842032D2CA10AF800B3F99E /* Frameworks */ = {
+		2842036B2CA1207700B3F99E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				284203462CA10DCE00B3F99E /* BenKit in Frameworks */,
+				284203832CA1225D00B3F99E /* BenKit in Frameworks */,
+				28CD72C42CA1249600D08DBC /* BenKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		284203272CA10AF800B3F99E = {
+		284203652CA1207700B3F99E = {
 			isa = PBXGroup;
 			children = (
-				284203322CA10AF800B3F99E /* PhysicalIntelligence */,
-				284203312CA10AF800B3F99E /* Products */,
+				284203702CA1207700B3F99E /* PhysicalIntelligence */,
+				2842036F2CA1207700B3F99E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		284203312CA10AF800B3F99E /* Products */ = {
+		2842036F2CA1207700B3F99E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				284203302CA10AF800B3F99E /* PhysicalIntelligence.app */,
+				2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,68 +55,69 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2842032F2CA10AF800B3F99E /* PhysicalIntelligence */ = {
+		2842036D2CA1207700B3F99E /* PhysicalIntelligence */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2842033F2CA10AFA00B3F99E /* Build configuration list for PBXNativeTarget "PhysicalIntelligence" */;
+			buildConfigurationList = 2842037C2CA1207800B3F99E /* Build configuration list for PBXNativeTarget "PhysicalIntelligence" */;
 			buildPhases = (
-				2842032C2CA10AF800B3F99E /* Sources */,
-				2842032D2CA10AF800B3F99E /* Frameworks */,
-				2842032E2CA10AF800B3F99E /* Resources */,
+				2842036A2CA1207700B3F99E /* Sources */,
+				2842036B2CA1207700B3F99E /* Frameworks */,
+				2842036C2CA1207700B3F99E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				284203322CA10AF800B3F99E /* PhysicalIntelligence */,
+				284203702CA1207700B3F99E /* PhysicalIntelligence */,
 			);
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
-				284203452CA10DCE00B3F99E /* BenKit */,
+				284203822CA1225D00B3F99E /* BenKit */,
+				28CD72C32CA1249600D08DBC /* BenKit */,
 			);
-			productName = PhysicalIntelligence;
-			productReference = 284203302CA10AF800B3F99E /* PhysicalIntelligence.app */;
+			productName = PhysicalIntelligence2;
+			productReference = 2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		284203282CA10AF800B3F99E /* Project object */ = {
+		284203662CA1207700B3F99E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					2842032F2CA10AF800B3F99E = {
+					2842036D2CA1207700B3F99E = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = 2842032B2CA10AF800B3F99E /* Build configuration list for PBXProject "PhysicalIntelligence" */;
+			buildConfigurationList = 284203692CA1207700B3F99E /* Build configuration list for PBXProject "PhysicalIntelligence" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 284203272CA10AF800B3F99E;
+			mainGroup = 284203652CA1207700B3F99E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				284203442CA10DCE00B3F99E /* XCLocalSwiftPackageReference "../../packages/BenKit" */,
+				28CD72C22CA1249600D08DBC /* XCLocalSwiftPackageReference "../../packages/BenKit" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 284203312CA10AF800B3F99E /* Products */;
+			productRefGroup = 2842036F2CA1207700B3F99E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2842032F2CA10AF800B3F99E /* PhysicalIntelligence */,
+				2842036D2CA1207700B3F99E /* PhysicalIntelligence */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2842032E2CA10AF800B3F99E /* Resources */ = {
+		2842036C2CA1207700B3F99E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -124,7 +127,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2842032C2CA10AF800B3F99E /* Sources */ = {
+		2842036A2CA1207700B3F99E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -134,7 +137,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		2842033D2CA10AFA00B3F99E /* Debug */ = {
+		2842037A2CA1207800B3F99E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -186,18 +189,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		2842033E2CA10AFA00B3F99E /* Release */ = {
+		2842037B2CA1207800B3F99E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -243,73 +246,84 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		284203402CA10AFA00B3F99E /* Debug */ = {
+		2842037D2CA1207800B3F99E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = PhysicalIntelligence/PhysicalIntelligence.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PhysicalIntelligence/Preview Content\"";
 				DEVELOPMENT_TEAM = GA42SWSGPU;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "PI UMI";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.sage.PhysicalIntelligence;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		284203412CA10AFA00B3F99E /* Release */ = {
+		2842037E2CA1207800B3F99E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = PhysicalIntelligence/PhysicalIntelligence.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PhysicalIntelligence/Preview Content\"";
 				DEVELOPMENT_TEAM = GA42SWSGPU;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "PI UMI";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.sage.PhysicalIntelligence;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -319,20 +333,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2842032B2CA10AF800B3F99E /* Build configuration list for PBXProject "PhysicalIntelligence" */ = {
+		284203692CA1207700B3F99E /* Build configuration list for PBXProject "PhysicalIntelligence" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2842033D2CA10AFA00B3F99E /* Debug */,
-				2842033E2CA10AFA00B3F99E /* Release */,
+				2842037A2CA1207800B3F99E /* Debug */,
+				2842037B2CA1207800B3F99E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2842033F2CA10AFA00B3F99E /* Build configuration list for PBXNativeTarget "PhysicalIntelligence" */ = {
+		2842037C2CA1207800B3F99E /* Build configuration list for PBXNativeTarget "PhysicalIntelligence" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				284203402CA10AFA00B3F99E /* Debug */,
-				284203412CA10AFA00B3F99E /* Release */,
+				2842037D2CA1207800B3F99E /* Debug */,
+				2842037E2CA1207800B3F99E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -340,18 +354,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		284203442CA10DCE00B3F99E /* XCLocalSwiftPackageReference "../../packages/BenKit" */ = {
+		28CD72C22CA1249600D08DBC /* XCLocalSwiftPackageReference "../../packages/BenKit" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../packages/BenKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		284203452CA10DCE00B3F99E /* BenKit */ = {
+		284203822CA1225D00B3F99E /* BenKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BenKit;
+		};
+		28CD72C32CA1249600D08DBC /* BenKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BenKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 284203282CA10AF800B3F99E /* Project object */;
+	rootObject = 284203662CA1207700B3F99E /* Project object */;
 }

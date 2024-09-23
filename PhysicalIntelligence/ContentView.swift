@@ -1,21 +1,18 @@
 //
 //  ContentView.swift
-//  PhysicalIntelligence
+//  PhysicalIntelligence2
 //
 //  Created by Benjamin Sage on 9/22/24.
 //
 
 import SwiftUI
+import RealityKit
 
-struct ContentView: View {
+struct ContentView : View {
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        ARViewContainer()
+            .ignoresSafeArea()
     }
 }
 

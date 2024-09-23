@@ -66,6 +66,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				28CD72CB2CA1258F00D08DBC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				284203702CA1207700B3F99E /* PhysicalIntelligence */,
@@ -105,6 +106,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				28CD72C22CA1249600D08DBC /* XCLocalSwiftPackageReference "../../packages/BenKit" */,
+				28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2842036F2CA1207700B3F99E /* Products */;
@@ -135,6 +137,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28CD72CB2CA1258F00D08DBC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 28CD72CA2CA1258F00D08DBC /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2842037A2CA1207800B3F99E /* Debug */ = {
@@ -360,6 +369,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.57.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		284203822CA1225D00B3F99E /* BenKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -368,6 +388,11 @@
 		28CD72C32CA1249600D08DBC /* BenKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BenKit;
+		};
+		28CD72CA2CA1258F00D08DBC /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

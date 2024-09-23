@@ -8,14 +8,24 @@
 import SwiftUI
 import RealityKit
 
-struct ContentView : View {
+struct ContentView: View {
+    @EnvironmentObject var model: Model
 
     var body: some View {
-        ARViewContainer()
-            .ignoresSafeArea()
+        VStack(spacing: 0) {
+            RecordingView()
+        }
+        .sheet(isPresented: $model.showSettingsSheet) {
+            SettingsSheet()
+        }
+        .onAppear {
+            model.showSettingsSheet = true
+        }
     }
 }
 
 #Preview {
     ContentView()
+        .tint(.blurple)
+        .environmentObject(Model())
 }

@@ -11,7 +11,7 @@ import SwiftData
 import Combine
 import UIKit
 
-@Observable public class Model: NSObject, ARSessionDelegate {
+@Observable class Model: NSObject {
     var welcomeShown = false // persist
     var showSettingsSheet = false
     var showLDAPSheet = false
@@ -24,10 +24,10 @@ import UIKit
 
     private var timerCancellable: AnyCancellable?
 
-    private let session = ARSession()
-    private var configuration: ARWorldTrackingConfiguration?
-    private var currentRecording: RecordingData?
-    private var modelContext: ModelContext?
+    let session = ARSession()
+    var configuration: ARWorldTrackingConfiguration?
+    var currentRecording: RecordingData?
+    var modelContext: ModelContext?
 
     override init() {
         super.init()
@@ -69,44 +69,6 @@ import UIKit
         }
     }
 
-    private func startARSession() {
-        guard ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) else {
-            print("Device does not support scene depth.")
-            return
-        }
-
-        configuration = ARWorldTrackingConfiguration()
-        configuration?.planeDetection = [.horizontal, .vertical]
-        configuration?.environmentTexturing = .automatic
-        configuration?.frameSemantics = [.sceneDepth]
-
-        session.delegate = self
-        session.run(configuration!)
-
-        currentRecording?.startTime = Date()
-    }
-
-    public func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        guard isRecording else { return }
-
-        let imageBuffer = frame.capturedImage
-        let imageData = imageBufferToJPEGData(imageBuffer)
-
-        var depthData: Data?
-        if let sceneDepth = frame.sceneDepth?.depthMap {
-            depthData = depthBufferToData(sceneDepth)
-        }
-
-        let recordedFrame = RecordedFrame(
-            timestamp: frame.timestamp,
-            cameraTransform: frame.camera.transform.toArray(),
-            imageData: imageData,
-            depthData: depthData
-        )
-
-        currentRecording?.frames.append(recordedFrame)
-    }
-
     private func saveRecording() {
         guard let recording = currentRecording, let modelContext = modelContext else { return }
         do {
@@ -118,26 +80,6 @@ import UIKit
         }
     }
 
-    private func imageBufferToJPEGData(_ pixelBuffer: CVPixelBuffer) -> Data {
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let context = CIContext()
-        if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
-            let uiImage = UIImage(cgImage: cgImage)
-            if let jpegData = uiImage.jpegData(compressionQuality: 0.8) {
-                return jpegData
-            }
-        }
-        return Data()
-    }
-
-    private func depthBufferToData(_ pixelBuffer: CVPixelBuffer) -> Data {
-        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
-        let dataSize = CVPixelBufferGetDataSize(pixelBuffer)
-        let baseAddress = CVPixelBufferGetBaseAddress(pixelBuffer)
-        let data = Data(bytes: baseAddress!, count: dataSize)
-        CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly)
-        return data
-    }
 }
 
 extension simd_float4x4 {

@@ -9,6 +9,8 @@ import SwiftUI
 import SageKit
 
 struct StatusBar: View {
+    @Environment(\.model) var model
+
     @State private var timeWidth: CGFloat = 0
     @State private var stackWidth: CGFloat = 0
 
@@ -23,7 +25,7 @@ struct StatusBar: View {
     var body: some View {
         ZStack {
             ZStack {
-                StatusBarLabel(text: "surajnair")
+                StatusBarLabel(text: model.ldap)
                     .frame(maxWidth: maxSideWidth, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -32,7 +34,7 @@ struct StatusBar: View {
                 .measure(.width, $timeWidth)
 
             ZStack {
-                StatusBarLabel(text: "initial_run_112")
+                StatusBarLabel(text: model.taskID)
                     .frame(maxWidth: maxSideWidth, alignment: .trailing)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -48,5 +50,9 @@ struct StatusBar: View {
 }
 
 #Preview {
-    StatusBar()
+    let model = Model()
+    model.taskID = "id"
+    model.ldap = "suraj"
+    return StatusBar()
+        .environment(model)
 }

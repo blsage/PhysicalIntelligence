@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct TimeLabel: View {
-    var duration: TimeInterval = 1834
+    @Environment(\.model) var model
+
+    var duration: TimeInterval {
+        model.recordingTime
+    }
 
     var time: String {
         let hours = Int(duration / 3600)
@@ -20,10 +24,11 @@ struct TimeLabel: View {
     var body: some View {
         Text(time)
             .font(.title3)
-            .monospaced()
+            .monospacedDigit()
     }
 }
 
 #Preview {
     TimeLabel()
+        .environment(Model())
 }

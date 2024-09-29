@@ -15,15 +15,23 @@ import UIKit
 @Observable class Model: NSObject {
     var welcomeShown: Bool = false // persist
     var showSettingsSheet = false
+    var showUploadsSheet = false
     var showLDAPSheet = false
     var showLDAP = false
     var ldap = "" // persist
     var taskID = ""
     var showLogoutConfirmation = false
-    var showTaskIDAlert = false
+    var showSetTaskIDAlert = false
+    var showEditTaskIDAlert = false
     var recordingTime: TimeInterval = 0
     var isRecording = false
     var lastFrame: TimeInterval = 0
+
+    var uploads: [RecordingUpload] = [] {
+        didSet {
+            saveUploads()
+        }
+    }
 
     var timerCancellable: AnyCancellable?
 
@@ -31,18 +39,29 @@ import UIKit
     var currentRecording: RecordingData?
     var modelContext: ModelContext?
 
+    var locationManager: CLLocationManager?
+    var locationUpdateContinuation: CheckedContinuation<Void, Error>?
+    var currentLocation: CLLocationCoordinate2D?
+
     override init() {
         super.init()
+        loadUploads()
+        resumePendingUploads()
     }
 
     func setModelContext(_ context: ModelContext) {
         self.modelContext = context
     }
 
+    private var uploadsFileURL: URL {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentsDirectory.appendingPathComponent("uploads.json")
+    }
+
     func saveRecording() {
         guard let recording = currentRecording, let modelContext = modelContext else { return }
         do {
-            modelContext.insert(recording)
+//            modelContext.insert(recording)
             try modelContext.save()
             print("Recording saved successfully.")
         } catch {
@@ -50,59 +69,29 @@ import UIKit
         }
     }
 
-}
-
-@Model
-class RecordedFrame: Identifiable {
-    @Attribute(.unique) var id: UUID = UUID()
-    var timestamp: TimeInterval
-    var cameraTransform: [Float]
-    var imageData: Data
-    var depthData: Data?
-    var depthConfidence: Data?
-
-    init(timestamp: TimeInterval, cameraTransform: [Float], imageData: Data, depthData: Data?, depthConfidence: Data?) {
-        self.timestamp = timestamp
-        self.cameraTransform = cameraTransform
-        self.imageData = imageData
-        self.depthData = depthData
-    }
-}
-
-@Model
-class RecordingData: Identifiable {
-    @Attribute(.unique) var id: UUID = UUID()
-    var startTime: Date?
-    var frames: [RecordedFrame]
-
-    init(frames: [RecordedFrame]) {
-        self.frames = frames
-    }
-}
-
-extension RecordingData {
-    static var sampleRecording: RecordingData {
-        // Create a sample frame with mock data
-        let sampleFrame = RecordedFrame(
-            timestamp: Date().timeIntervalSince1970,
-            cameraTransform: [1.0, 0.0, 0.0, 0.0,
-                              0.0, 1.0, 0.0, 0.0,
-                              0.0, 0.0, 1.0, 0.0,
-                              0.0, 0.0, 0.0, 1.0],
-            imageData: sampleImageData,
-            depthData: nil,
-            depthConfidence: nil
-        )
-
-        // Create a sample recording with the sample frame
-        let recording = RecordingData(frames: [sampleFrame])
-        recording.startTime = Date()
-        return recording
+    func saveUploads() {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let data = try JSONEncoder().encode(self.uploads)
+                try data.write(to: self.uploadsFileURL)
+            } catch {
+                print("Failed to save uploads: \(error)")
+            }
+        }
     }
 
-    static var sampleImageData: Data {
-        // Use a system image for sample image data
-        let image = UIImage(systemName: "video") ?? UIImage()
-        return image.jpegData(compressionQuality: 1.0) ?? Data()
+    func loadUploads() {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let data = try Data(contentsOf: self.uploadsFileURL)
+                let uploads = try JSONDecoder().decode([RecordingUpload].self, from: data)
+                DispatchQueue.main.async {
+                    self.uploads = uploads
+                }
+            } catch {
+                print("Failed to load uploads: \(error)")
+            }
+        }
     }
+
 }

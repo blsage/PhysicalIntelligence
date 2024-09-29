@@ -14,6 +14,10 @@ struct CameraView: View {
                 RecordButton()
                     .padding()
             }
+            .overlay(alignment: .bottomLeading) {
+                UploadsButton()
+                    .padding()
+            }
             .background {
                 Color.black.ignoresSafeArea()
             }

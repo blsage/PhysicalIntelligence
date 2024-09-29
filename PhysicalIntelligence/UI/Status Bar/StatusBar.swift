@@ -25,8 +25,7 @@ struct StatusBar: View {
     var body: some View {
         ZStack {
             ZStack {
-                StatusBarLabel(text: model.ldap)
-                    .frame(maxWidth: maxSideWidth, alignment: .leading)
+                ldap
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -34,8 +33,7 @@ struct StatusBar: View {
                 .measure(.width, $timeWidth)
 
             ZStack {
-                StatusBarLabel(text: model.taskID)
-                    .frame(maxWidth: maxSideWidth, alignment: .trailing)
+                taskID
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -46,6 +44,22 @@ struct StatusBar: View {
         .background {
             Color.black.ignoresSafeArea()
         }
+    }
+
+    var taskID: some View {
+        Button {
+            @Bindable var model = model
+            model.showEditTaskIDAlert = true
+        } label: {
+            StatusBarLabel(text: model.taskID)
+                .frame(maxWidth: maxSideWidth, alignment: .trailing)
+        }
+        .foregroundStyle(.white)
+    }
+
+    var ldap: some View {
+        StatusBarLabel(text: model.ldap)
+            .frame(maxWidth: maxSideWidth, alignment: .leading)
     }
 }
 

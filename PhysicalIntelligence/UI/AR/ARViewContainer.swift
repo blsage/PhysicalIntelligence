@@ -14,7 +14,7 @@ struct ARViewContainer: UIViewRepresentable {
 
     func makeUIView(context: Context) -> ARView {
         @Bindable var model = model
-        
+
         let arView = ARView(frame: .zero)
 
         model.session = arView.session

@@ -31,6 +31,7 @@ extension Model {
         recordingTime = 0
         session.pause()
         saveRecording()
+        uploadRecording()
         currentRecording = nil
         timerCancellable?.cancel()
         timerCancellable = nil
@@ -55,7 +56,7 @@ extension Model {
 
     func tryStartRecording() {
         if taskID.isEmpty {
-            showTaskIDAlert = true
+            showSetTaskIDAlert = true
         } else {
             toggleRecording()
         }

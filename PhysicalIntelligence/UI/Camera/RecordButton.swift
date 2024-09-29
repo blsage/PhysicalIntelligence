@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecordButton: View {
-    @State private var isRecording: Bool = false
+    @Environment(\.model) var model
 
     var width: CGFloat = 60
     var lineWidth: CGFloat = 4
@@ -18,9 +18,12 @@ struct RecordButton: View {
         width + lineWidth + spacing * 2
     }
 
+    var isRecording: Bool {
+        model.isRecording
+    }
+
     var body: some View {
         ZStack {
-            // White outer circle
             Circle()
                 .stroke(Color.white, lineWidth: lineWidth)
                 .frame(width: circleWidth, height: circleWidth)
@@ -32,7 +35,8 @@ struct RecordButton: View {
                 .animation(.snappy(duration: 1/3), value: isRecording)
         }
         .onTapGesture {
-            isRecording.toggle() // Toggle recording state
+            @Bindable var model = model
+            model.toggleRecording()
         }
     }
 }

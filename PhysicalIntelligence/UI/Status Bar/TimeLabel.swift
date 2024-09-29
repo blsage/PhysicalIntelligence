@@ -25,6 +25,13 @@ struct TimeLabel: View {
         Text(time)
             .font(.title3)
             .monospacedDigit()
+            .padding(.horizontal, 4)
+            .padding(.vertical, 2)
+            .background {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(model.isRecording ? .red : .clear)
+                    .animation(.default.delay(0.4), value: model.isRecording)
+            }
     }
 }
 

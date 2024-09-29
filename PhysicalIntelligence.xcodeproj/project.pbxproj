@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		287D83252CA908E8009D31AF /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 287D83242CA908E8009D31AF /* SageKit */; };
+		287D838A2CA93521009D31AF /* AWSCognitoAuthPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 287D83892CA93521009D31AF /* AWSCognitoAuthPlugin */; };
+		287D838C2CA93521009D31AF /* AWSS3StoragePlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 287D838B2CA93521009D31AF /* AWSS3StoragePlugin */; };
+		287D838E2CA93521009D31AF /* Amplify in Frameworks */ = {isa = PBXBuildFile; productRef = 287D838D2CA93521009D31AF /* Amplify */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				287D83252CA908E8009D31AF /* SageKit in Frameworks */,
+				287D838E2CA93521009D31AF /* Amplify in Frameworks */,
+				287D838A2CA93521009D31AF /* AWSCognitoAuthPlugin in Frameworks */,
+				287D838C2CA93521009D31AF /* AWSS3StoragePlugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +78,9 @@
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
 				287D83242CA908E8009D31AF /* SageKit */,
+				287D83892CA93521009D31AF /* AWSCognitoAuthPlugin */,
+				287D838B2CA93521009D31AF /* AWSS3StoragePlugin */,
+				287D838D2CA93521009D31AF /* Amplify */,
 			);
 			productName = PhysicalIntelligence2;
 			productReference = 2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */;
@@ -104,6 +113,7 @@
 			packageReferences = (
 				28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				287D83232CA908E8009D31AF /* XCLocalSwiftPackageReference "../../packages/SageKit" */,
+				287D83882CA93521009D31AF /* XCRemoteSwiftPackageReference "amplify-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2842036F2CA1207700B3F99E /* Products */;
@@ -367,6 +377,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		287D83882CA93521009D31AF /* XCRemoteSwiftPackageReference "amplify-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aws-amplify/amplify-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.42.1;
+			};
+		};
 		28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -381,6 +399,21 @@
 		287D83242CA908E8009D31AF /* SageKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SageKit;
+		};
+		287D83892CA93521009D31AF /* AWSCognitoAuthPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 287D83882CA93521009D31AF /* XCRemoteSwiftPackageReference "amplify-swift" */;
+			productName = AWSCognitoAuthPlugin;
+		};
+		287D838B2CA93521009D31AF /* AWSS3StoragePlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 287D83882CA93521009D31AF /* XCRemoteSwiftPackageReference "amplify-swift" */;
+			productName = AWSS3StoragePlugin;
+		};
+		287D838D2CA93521009D31AF /* Amplify */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 287D83882CA93521009D31AF /* XCRemoteSwiftPackageReference "amplify-swift" */;
+			productName = Amplify;
 		};
 		28CD72CA2CA1258F00D08DBC /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;

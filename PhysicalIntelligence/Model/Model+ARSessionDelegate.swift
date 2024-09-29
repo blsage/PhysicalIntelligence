@@ -9,11 +9,6 @@ import ARKit
 
 extension Model: ARSessionDelegate {
     func startARSession() {
-        guard ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) else {
-            print("Device does not support scene depth.")
-            return
-        }
-
         configuration = ARWorldTrackingConfiguration()
         configuration?.planeDetection = [.horizontal, .vertical]
         configuration?.environmentTexturing = .automatic
@@ -26,21 +21,28 @@ extension Model: ARSessionDelegate {
     }
 
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        guard isRecording else { return }
+        guard isRecording, lastFrame == 0 || lastFrame + 1/31 < frame.timestamp else { return }
+
+        lastFrame = frame.timestamp
 
         let imageBuffer = frame.capturedImage
         let imageData = imageBuffer.jpegData
 
         var depthData: Data?
+        var depthConfidence: Data?
         if let sceneDepth = frame.sceneDepth?.depthMap {
             depthData = sceneDepth.depthData
+        }
+        if let sceneDepthConfidence = frame.sceneDepth?.confidenceMap {
+            depthConfidence = sceneDepthConfidence.depthData
         }
 
         let recordedFrame = RecordedFrame(
             timestamp: frame.timestamp,
-            cameraTransform: frame.camera.transform.toArray(),
+            cameraTransform: frame.camera.transform.array,
             imageData: imageData,
-            depthData: depthData
+            depthData: depthData,
+            depthConfidence: depthConfidence
         )
 
         currentRecording?.frames.append(recordedFrame)

@@ -10,10 +10,6 @@ import SwiftUI
 struct CameraView: View {
     var body: some View {
         ARViewContainer()
-            .overlay {
-                CameraOverlayGrid()
-                CameraCornerOverlay()
-            }
             .overlay(alignment: .bottom) {
                 RecordButton()
                     .padding()
@@ -26,4 +22,5 @@ struct CameraView: View {
 
 #Preview {
     CameraView()
+        .environment(Model())
 }

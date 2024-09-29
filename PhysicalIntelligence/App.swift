@@ -9,13 +9,13 @@ import SwiftUI
 
 @main
 struct PhysicalIntelligenceApp: App {
-    @StateObject var model = Model()
+    @State var model = Model()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .tint(.blurple)
-                .environmentObject(model)
+                .environment(model)
         }
     }
 }

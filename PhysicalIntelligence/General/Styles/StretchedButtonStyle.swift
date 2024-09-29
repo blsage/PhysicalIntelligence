@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import BenKit
+import SageKit
 
 struct StretchedButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) var isEnabled

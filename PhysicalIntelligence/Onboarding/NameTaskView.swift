@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct NameTaskView: View {
-    @EnvironmentObject var model: Model
+    @Environment(\.model) var model
 
     @FocusState var focused: Bool
 
     var body: some View {
+        @Bindable var model = model
         VStack(spacing: 30) {
             Text("Name your task")
                 .font(.largeTitle.weight(.bold))
@@ -56,5 +57,5 @@ struct NameTaskView: View {
 
 #Preview {
     NameTaskView()
-        .environmentObject(Model())
+        .environment(Model())
 }

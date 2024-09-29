@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct LDAPView: View {
-    @EnvironmentObject var model: Model
+    @Environment(\.model) var model
 
     @FocusState private var focused: Bool
 
     var body: some View {
+        @Bindable var model = model
         VStack(spacing: 30) {
             Text("What’s your LDAP?")
                 .font(.largeTitle.weight(.bold))
             Text("This will be used to identify you to your uploads and authenticate server connection.")
                 .multilineTextAlignment(.center)
 
-            TextField("e.g. surajnair", text: $model.ldap)
+            TextField("surajnair", text: $model.ldap)
                 .monospaced()
                 .padding(.vertical)
                 .padding(.horizontal)
@@ -50,11 +51,11 @@ struct LDAPView: View {
     }
 
     func next() {
-        model.onboardingPath.append(.taskID)
+        model.ldapDone()
     }
 }
 
 #Preview {
     LDAPView()
-        .environmentObject(Model())
+        .environment(Model())
 }

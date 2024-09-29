@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeSheet: View {
-    @EnvironmentObject var model: Model
+    @Environment(\.model) var model
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -36,7 +36,7 @@ struct WelcomeSheet: View {
             .padding(.vertical, 30)
 
             Button("Get started") {
-                model.onboardingPath.append(.ldap)
+                model.showLDAP = true
             }
             .buttonStyle(StretchedButtonStyle())
             .foregroundStyle(.white, .blurple)
@@ -59,5 +59,5 @@ struct WelcomeSheet: View {
 #Preview {
     WelcomeSheet()
         .tint(.blurple)
-        .environmentObject(Model())
+        .environment(Model())
 }

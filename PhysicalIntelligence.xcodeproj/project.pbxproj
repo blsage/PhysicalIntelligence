@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		284203832CA1225D00B3F99E /* BenKit in Frameworks */ = {isa = PBXBuildFile; productRef = 284203822CA1225D00B3F99E /* BenKit */; };
-		28CD72C42CA1249600D08DBC /* BenKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28CD72C32CA1249600D08DBC /* BenKit */; };
+		287D83252CA908E8009D31AF /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 287D83242CA908E8009D31AF /* SageKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				284203832CA1225D00B3F99E /* BenKit in Frameworks */,
-				28CD72C42CA1249600D08DBC /* BenKit in Frameworks */,
+				287D83252CA908E8009D31AF /* SageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,8 +71,7 @@
 			);
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
-				284203822CA1225D00B3F99E /* BenKit */,
-				28CD72C32CA1249600D08DBC /* BenKit */,
+				287D83242CA908E8009D31AF /* SageKit */,
 			);
 			productName = PhysicalIntelligence2;
 			productReference = 2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */;
@@ -105,8 +102,8 @@
 			mainGroup = 284203652CA1207700B3F99E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				28CD72C22CA1249600D08DBC /* XCLocalSwiftPackageReference "../../packages/BenKit" */,
 				28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				287D83232CA908E8009D31AF /* XCLocalSwiftPackageReference "../../packages/SageKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2842036F2CA1207700B3F99E /* Products */;
@@ -363,9 +360,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		28CD72C22CA1249600D08DBC /* XCLocalSwiftPackageReference "../../packages/BenKit" */ = {
+		287D83232CA908E8009D31AF /* XCLocalSwiftPackageReference "../../packages/SageKit" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../packages/BenKit;
+			relativePath = ../../packages/SageKit;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -381,13 +378,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		284203822CA1225D00B3F99E /* BenKit */ = {
+		287D83242CA908E8009D31AF /* SageKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = BenKit;
-		};
-		28CD72C32CA1249600D08DBC /* BenKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BenKit;
+			productName = SageKit;
 		};
 		28CD72CA2CA1258F00D08DBC /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;

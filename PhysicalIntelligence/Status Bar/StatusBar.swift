@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import BenKit
+import SageKit
 
 struct StatusBar: View {
     @State private var timeWidth: CGFloat = 0

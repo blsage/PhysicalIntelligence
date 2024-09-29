@@ -22,4 +22,5 @@ struct RecordingView: View {
     .background {
         Color.black.ignoresSafeArea()
     }
+    .environment(Model())
 }

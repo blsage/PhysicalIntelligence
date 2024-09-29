@@ -8,20 +8,16 @@
 import SwiftUI
 
 struct SettingsSheet: View {
-    @EnvironmentObject var model: Model
+    @Environment(\.model) var model
 
     var body: some View {
-        NavigationStack(path: $model.onboardingPath) {
+        @Bindable var model = model
+        NavigationStack {
             WelcomeSheet()
                 .navigationTitle("")
-                .navigationDestination(for: OnboardingPage.self) { page in
-                    switch page {
-                    case .ldap:
+                .navigationDestination(isPresented: $model.showLDAP) {
                         LDAPView()
-                    case .taskID:
-                        NameTaskView()
                     }
-                }
         }
         .interactiveDismissDisabled()
     }
@@ -29,5 +25,5 @@ struct SettingsSheet: View {
 
 #Preview {
     SettingsSheet()
-        .environmentObject(Model())
+        .environment(Model())
 }

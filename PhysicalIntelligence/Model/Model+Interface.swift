@@ -6,33 +6,46 @@
 //
 
 import Foundation
+import Combine
 
 extension Model {
     func toggleRecording() {
         if isRecording {
-            isRecording = false
-            recordingTime = 0
-            session.pause()
-            saveRecording()
-            currentRecording = nil
-            timerCancellable?.cancel()
-            timerCancellable = nil
+            stopRecording()
         } else {
-            startARSession()
-            currentRecording = RecordingData(frames: [])
-            currentRecording?.startTime = Date()
-            isRecording = true
-            recordingTime = 0
-            timerCancellable = Timer.publish(every: 0.1, on: .main, in: .common)
-                .autoconnect()
-                .sink { [weak self] _ in
-                    Task { @MainActor in
-                        if let startTime = self?.currentRecording?.startTime {
-                            self?.recordingTime = Date().timeIntervalSince(startTime)
-                        }
+            startRecording()
+        }
+    }
+
+    func startRecording() {
+        startARSession()
+        currentRecording = RecordingData(frames: [])
+        currentRecording?.startTime = Date()
+        isRecording = true
+        recordingTime = 0
+        timerCancellable = recordingTimer
+    }
+
+    func stopRecording() {
+        isRecording = false
+        recordingTime = 0
+        session.pause()
+        saveRecording()
+        currentRecording = nil
+        timerCancellable?.cancel()
+        timerCancellable = nil
+    }
+
+    var recordingTimer: AnyCancellable {
+        Timer.publish(every: 0.1, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    if let startTime = self?.currentRecording?.startTime {
+                        self?.recordingTime = Date().timeIntervalSince(startTime)
                     }
                 }
-        }
+            }
     }
 
     func ldapDone() {

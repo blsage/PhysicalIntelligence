@@ -13,7 +13,12 @@ struct ARViewContainer: UIViewRepresentable {
     @Environment(Model.self) var model
 
     func makeUIView(context: Context) -> ARView {
+        @Bindable var model = model
+        
         let arView = ARView(frame: .zero)
+
+        model.session = arView.session
+        model.startARSession()
 
 //        let mesh = MeshResource.generateBox(size: 0.1, cornerRadius: 0.005)
 //        let material = SimpleMaterial(color: .gray, roughness: 0.15, isMetallic: true)

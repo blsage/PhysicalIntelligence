@@ -23,21 +23,30 @@ struct RecordButton: View {
     }
 
     var body: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.white, lineWidth: lineWidth)
-                .frame(width: circleWidth, height: circleWidth)
-
-            RoundedRectangle(cornerRadius: isRecording ? 8 : 30)
-                .fill(Color.red)
-                .padding(isRecording ? 15 : 0)
-                .frame(width: 60, height: 60)
-                .animation(.snappy(duration: 1/3), value: isRecording)
-        }
-        .onTapGesture {
+        Button {
             @Bindable var model = model
             model.toggleRecording()
+        } label: {
+            ZStack {
+                Circle()
+                    .stroke(Color.white, lineWidth: lineWidth)
+                    .frame(width: circleWidth, height: circleWidth)
+
+                RoundedRectangle(cornerRadius: isRecording ? 8 : 30)
+                    .fill(Color.red)
+                    .padding(isRecording ? 15 : 0)
+                    .frame(width: 60, height: 60)
+                    .animation(.snappy(duration: 1/3), value: isRecording)
+            }
         }
+        .buttonStyle(RecordButtonStyle())
+    }
+}
+
+struct RecordButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .sensoryFeedback(.selection, trigger: configuration.isPressed)
     }
 }
 

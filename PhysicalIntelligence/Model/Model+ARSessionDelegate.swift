@@ -9,19 +9,23 @@ import ARKit
 
 extension Model: ARSessionDelegate {
     func startARSession() {
-        configuration = ARWorldTrackingConfiguration()
-        configuration?.planeDetection = [.horizontal, .vertical]
-        configuration?.environmentTexturing = .automatic
-        configuration?.frameSemantics = [.sceneDepth]
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = [.horizontal, .vertical]
+        configuration.environmentTexturing = .automatic
+        configuration.frameSemantics = [.sceneDepth]
 
         session.delegate = self
-        session.run(configuration!)
+        session.run(configuration)
 
         currentRecording?.startTime = Date()
     }
 
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        guard isRecording, lastFrame == 0 || lastFrame + 1/31 < frame.timestamp else { return }
+        print("here")
+
+        guard isRecording/*, lastFrame == 0 || lastFrame + 1/31 < frame.timestamp*/ else { return }
+
+        print("adding frame")
 
         lastFrame = frame.timestamp
 

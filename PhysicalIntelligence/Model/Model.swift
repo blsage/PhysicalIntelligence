@@ -8,11 +8,12 @@
 import Foundation
 import ARKit
 import SwiftData
+import SwiftUI
 import Combine
 import UIKit
 
 @Observable class Model: NSObject {
-    var welcomeShown = false // persist
+    var welcomeShown: Bool = false // persist
     var showSettingsSheet = false
     var showLDAPSheet = false
     var showLDAP = false
@@ -25,8 +26,7 @@ import UIKit
 
     var timerCancellable: AnyCancellable?
 
-    let session = ARSession()
-    var configuration: ARWorldTrackingConfiguration?
+    var session = ARSession()
     var currentRecording: RecordingData?
     var modelContext: ModelContext?
 

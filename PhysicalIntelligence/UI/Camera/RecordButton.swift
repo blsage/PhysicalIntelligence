@@ -24,8 +24,7 @@ struct RecordButton: View {
 
     var body: some View {
         Button {
-            @Bindable var model = model
-            model.toggleRecording()
+            model.tryStartRecording()
         } label: {
             ZStack {
                 Circle()
@@ -41,6 +40,7 @@ struct RecordButton: View {
         }
         .buttonStyle(RecordButtonStyle())
     }
+
 }
 
 struct RecordButtonStyle: ButtonStyle {

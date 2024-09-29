@@ -20,6 +20,7 @@ import UIKit
     var ldap = "" // persist
     var taskID = ""
     var showLogoutConfirmation = false
+    var showTaskIDAlert = false
     var recordingTime: TimeInterval = 0
     var isRecording = false
     var lastFrame: TimeInterval = 0

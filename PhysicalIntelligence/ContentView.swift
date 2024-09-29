@@ -10,12 +10,24 @@ import RealityKit
 
 struct ContentView: View {
     @Environment(\.model) var model
+    @State private var taskID = ""
 
     var body: some View {
         @Bindable var model = model
 
         VStack(spacing: 0) {
             RecordingView()
+        }
+        .alert("Task ID", isPresented: $model.showTaskIDAlert) {
+            TextField("put_away_dishes", text: $taskID)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
+            Button("Record") {
+                model.taskID = taskID.lowercased()
+                model.tryStartRecording()
+            }
+        } message: {
+            Text("Name this task.")
         }
         .sheet(isPresented: $model.showSettingsSheet) {
             SettingsSheet()
@@ -24,7 +36,7 @@ struct ContentView: View {
             LDAPView()
         }
         .onAppear {
-            model.showSettingsSheet = true
+            model.showAppropriateSheet()
         }
     }
 }

@@ -52,4 +52,20 @@ extension Model {
         showSettingsSheet = false
         showLDAPSheet = false
     }
+
+    func tryStartRecording() {
+        if taskID.isEmpty {
+            showTaskIDAlert = true
+        } else {
+            toggleRecording()
+        }
+    }
+
+    func showAppropriateSheet() {
+        if !welcomeShown {
+            showSettingsSheet = true
+        } else if ldap.isEmpty {
+            showLDAPSheet = true
+        }
+    }
 }

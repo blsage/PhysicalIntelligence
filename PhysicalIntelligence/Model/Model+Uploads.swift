@@ -37,7 +37,7 @@ extension Model {
                 uploads.insert(upload, at: 0)
             }
 
-//            await uploadFiles(recordingFolderURL: recordingFolderURL, upload: upload)
+            await uploadFiles(recordingFolderURL: recordingFolderURL, upload: upload)
         }
     }
 

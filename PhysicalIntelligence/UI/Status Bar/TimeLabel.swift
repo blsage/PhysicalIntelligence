@@ -34,7 +34,7 @@ struct TimeLabel: View {
             .padding(.vertical, 2)
             .background {
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(model.isRecording ? .red : .clear)
+                    .fill(model.isRecording ? .pink : .clear)
                     .animation(.default.delay(0.4), value: model.isRecording)
             }
     }

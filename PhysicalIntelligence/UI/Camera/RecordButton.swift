@@ -32,7 +32,7 @@ struct RecordButton: View {
                     .frame(width: circleWidth, height: circleWidth)
 
                 RoundedRectangle(cornerRadius: isRecording ? 8 : 30)
-                    .fill(Color.red)
+                    .fill(Color.pink)
                     .padding(isRecording ? 15 : 0)
                     .frame(width: 60, height: 60)
                     .animation(.snappy(duration: 1/3), value: isRecording)

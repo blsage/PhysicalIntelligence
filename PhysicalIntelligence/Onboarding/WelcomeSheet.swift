@@ -39,7 +39,7 @@ struct WelcomeSheet: View {
                 model.showLDAP = true
             }
             .buttonStyle(StretchedButtonStyle())
-            .foregroundStyle(.white, .blurple)
+            .foregroundStyle(.white, .pink)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 30)
 
@@ -58,6 +58,6 @@ struct WelcomeSheet: View {
 
 #Preview {
     WelcomeSheet()
-        .tint(.blurple)
+        .tint(.pink)
         .environment(Model())
 }

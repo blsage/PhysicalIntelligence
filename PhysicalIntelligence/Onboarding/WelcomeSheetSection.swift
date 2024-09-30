@@ -21,7 +21,7 @@ struct WelcomeSheetSection: View {
                         .foregroundColor(.white)
                     Image(systemName: icon)
                 }
-                .foregroundStyle(.blurple.gradient)
+                .foregroundStyle(.pink.gradient)
                 .font(.largeTitle)
             VStack(alignment: .leading) {
                 Text(title)

@@ -43,7 +43,7 @@ struct NameTaskView: View {
         .overlay(alignment: .bottom) {
             Button("Done", action: done)            .buttonStyle(StretchedButtonStyle())
                 .disabled(model.taskID.count < 3)
-                .foregroundStyle(.white, .blurple)
+                .foregroundStyle(.white, .pink)
         }
         .padding(.top, 24)
         .padding(28)

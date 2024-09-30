@@ -77,7 +77,7 @@ struct StretchedButtonStyle: ButtonStyle {
     }
 
     var secondaryForegroundStyle: some ShapeStyle {
-        isEnabled ? Color.blurple : .secondary.opacity(0.5)
+        isEnabled ? Color.pink : .secondary.opacity(0.5)
     }
 
     func handlePressed(_ isPressed: Bool) {

@@ -35,6 +35,6 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .tint(.blurple)
+        .tint(.pink)
         .environment(Model())
 }

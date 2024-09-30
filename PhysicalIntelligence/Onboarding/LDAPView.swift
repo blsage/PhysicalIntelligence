@@ -43,7 +43,7 @@ struct LDAPView: View {
         .overlay(alignment: .bottom) {
             Button("Next", action: next)            .buttonStyle(StretchedButtonStyle())
                 .disabled(model.ldap.count < 3)
-                .foregroundStyle(.white, .blurple)
+                .foregroundStyle(.white, .pink)
         }
         .padding(.top, 24)
         .padding(28)

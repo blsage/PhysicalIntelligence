@@ -15,7 +15,7 @@ struct PhysicalIntelligenceApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .tint(.blurple)
+                .tint(.pink)
                 .onAppear {
                     model.setModelContext(modelContext)
                 }

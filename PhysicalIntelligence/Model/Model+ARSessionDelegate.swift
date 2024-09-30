@@ -6,10 +6,10 @@
 //
 
 import ARKit
-import RealityKit
 
 extension Model: ARSessionDelegate {
-    func startARSession(for arView: ARView) {
+    func startARSession() {
+        print("starting")
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal, .vertical]
         configuration.environmentTexturing = .automatic
@@ -18,14 +18,14 @@ extension Model: ARSessionDelegate {
             configuration.frameSemantics.insert(.sceneDepth)
         }
 
-        arView.session.delegate = self
-        arView.session.run(configuration)
+        session.delegate = self
+        session.run(configuration)
 
         currentRecording?.startTime = Date()
     }
 
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
-        print("here")
+        print("SESSION")
         guard isRecording else { return }
 
         let imageBuffer = frame.capturedImage

@@ -10,17 +10,17 @@ import SwiftUI
 import RealityKit
 
 struct ARViewContainer: UIViewRepresentable {
-    @Environment(Model.self) var model
+    @Environment(\.model) var model
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
 
-        model.startARSession(for: arView)
+        model.startARSession()
+
+        arView.session = model.session
 
         return arView
     }
 
-    func updateUIView(_ arView: ARView, context: Context) {
-
-    }
+    func updateUIView(_ arView: ARView, context: Context) { }
 }

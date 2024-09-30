@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct ModelEnvironmentValue: EnvironmentKey {
+struct ModelEnvironmentValue: @preconcurrency EnvironmentKey {
+    @MainActor
     static let defaultValue: Model = .init()
 }
 

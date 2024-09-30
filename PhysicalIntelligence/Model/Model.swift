@@ -13,6 +13,7 @@ import Combine
 import UIKit
 import SageKit
 
+@MainActor
 @Observable class Model: NSObject {
     var welcomeShown: Bool = false {
         didSet { welcomeShown.save("welcomeShown") }
@@ -31,7 +32,11 @@ import SageKit
     var showSetTaskIDAlert = false
     var showEditTaskIDAlert = false
     var recordingTime: TimeInterval = 0
-    var isRecording = false
+    var isRecording = false {
+        didSet {
+            print("isRecording \(isRecording)")
+        }
+    }
 
     var uploads: [RecordingUpload] = [] {
         didSet {

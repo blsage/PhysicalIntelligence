@@ -260,7 +260,7 @@ extension Model {
         }
 
         // Replace with your server URL that provides pre-signed URLs
-        guard let url = URL(string: "https://yourserver.com/getPresignedURLs") else {
+        guard let url = URL(string: "https://physical-intelligence-workers.vercel.app") else {
             return nil
         }
 

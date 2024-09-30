@@ -256,7 +256,7 @@ extension Model {
         let recordingFolderPath = files.first?.deletingLastPathComponent().path ?? ""
         let fileKeys = files.map { fileURL -> String in
             let relativePath = fileURL.path.replacingOccurrences(of: recordingFolderPath + "/", with: "")
-            return "\(self.ldap)/\(recordingID)/\(relativePath)"
+            return "\(self.ldap.trimmingCharacters(in: .whitespacesAndNewlines))/\(recordingID)/\(relativePath)"
         }
 
         // Replace with your server URL that provides pre-signed URLs
@@ -279,7 +279,7 @@ extension Model {
             for (fileKey, urlString) in responseDict {
                 if let fileURL = files.first(where: { fileURL in
                     let relativePath = fileURL.path.replacingOccurrences(of: recordingFolderPath + "/", with: "")
-                    return relativePath == fileKey
+                    return fileKey.hasSuffix(relativePath)
                 }), let presignedURL = URL(string: urlString) {
                     urlMapping[fileURL] = presignedURL
                 }
@@ -296,6 +296,8 @@ extension Model {
         var totalBytesSent: Int64 = 0
         var totalBytesExpectedToSend: Int64 = 0
 
+        print("Starting upload for \(files.count) files")
+
         // Calculate total expected bytes
         for fileURL in files {
             if let fileSize = try? FileManager.default.attributesOfItem(atPath: fileURL.path)[.size] as? Int64 {
@@ -303,9 +305,12 @@ extension Model {
             }
         }
 
+        print("Starting upload for \(files.count) files")
+
         await withTaskGroup(of: (Int64, Error?).self) { group in
             for fileURL in files {
                 guard let presignedURL = urlMapping[fileURL] else {
+                    print("No presigned URL found for \(fileURL.lastPathComponent)")
                     continue
                 }
 
@@ -315,19 +320,31 @@ extension Model {
                         request.httpMethod = "PUT"
 
                         let fileData = try Data(contentsOf: fileURL)
-                        let (response, _) = try await URLSession.shared.upload(for: request, from: fileData)
+                        print("Uploading \(fileURL.lastPathComponent) (\(fileData.count) bytes)")
 
-                        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 200 {
-                            let error = NSError(
-                                domain: "Upload",
-                                code: httpResponse.statusCode,
-                                userInfo: [NSLocalizedDescriptionKey: "Failed to upload \(fileURL.lastPathComponent)"]
-                            )
-                            return (Int64(fileData.count), error)
+                        let (_, response) = try await URLSession.shared.upload(for: request, from: fileData)
+                        
+                        if let httpResponse = response as? HTTPURLResponse {
+                            print("Response status code for \(fileURL.lastPathComponent): \(httpResponse.statusCode)")
+                            if httpResponse.statusCode != 200 {
+                                let error = NSError(
+                                    domain: "Upload",
+                                    code: httpResponse.statusCode,
+                                    userInfo: [NSLocalizedDescriptionKey: "Failed to upload \(fileURL.lastPathComponent)"]
+                                )
+                                print(error.localizedDescription)
+                                return (Int64(fileData.count), error)
+                            } else {
+                                print("Successfully uploaded \(fileURL.lastPathComponent)")
+                                print(httpResponse)
+                                return (Int64(fileData.count), nil)
+                            }
                         } else {
-                            return (Int64(fileData.count), nil)
+                            print("Unexpected response type for \(fileURL.lastPathComponent)")
+                            return (Int64(fileData.count), NSError(domain: "Upload", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unexpected response type"]))
                         }
                     } catch {
+                        print("Error uploading \(fileURL.lastPathComponent): \(error.localizedDescription)")
                         return (0, error)
                     }
                 }
@@ -354,6 +371,7 @@ extension Model {
         } else {
             DispatchQueue.main.async {
                 let errorDescription = uploadErrors.first?.localizedDescription ?? "Unknown error"
+                print(errorDescription)
                 upload.status = .failed(errorDescription)
             }
         }

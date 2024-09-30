@@ -6,39 +6,37 @@
 //
 
 import ARKit
+import RealityKit
 
 extension Model: ARSessionDelegate {
-    func startARSession() {
+    func startARSession(for arView: ARView) {
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal, .vertical]
         configuration.environmentTexturing = .automatic
-        configuration.frameSemantics = [.sceneDepth]
 
-        session.delegate = self
-        session.run(configuration)
+        if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
+            configuration.frameSemantics.insert(.sceneDepth)
+        }
+
+        arView.session.delegate = self
+        arView.session.run(configuration)
 
         currentRecording?.startTime = Date()
     }
 
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         print("here")
-
-        guard isRecording/*, lastFrame == 0 || lastFrame + 1/31 < frame.timestamp*/ else { return }
-
-        print("adding frame")
-
-        lastFrame = frame.timestamp
+        guard isRecording else { return }
 
         let imageBuffer = frame.capturedImage
         let imageData = imageBuffer.jpegData
 
         var depthData: Data?
         var depthConfidence: Data?
-        if let sceneDepth = frame.sceneDepth?.depthMap {
-            depthData = sceneDepth.depthData
-        }
-        if let sceneDepthConfidence = frame.sceneDepth?.confidenceMap {
-            depthConfidence = sceneDepthConfidence.depthData
+
+        if let sceneDepth = frame.sceneDepth {
+            depthData = sceneDepth.depthMap.depthData
+            depthConfidence = sceneDepth.confidenceMap?.depthData
         }
 
         let recordedFrame = RecordedFrame(

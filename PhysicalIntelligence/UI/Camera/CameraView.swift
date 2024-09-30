@@ -10,17 +10,19 @@ import SwiftUI
 struct CameraView: View {
     var body: some View {
         ARViewContainer()
+            .ignoresSafeArea()
             .overlay(alignment: .bottom) {
                 RecordButton()
-                    .padding()
-            }
-            .overlay(alignment: .bottomLeading) {
-                UploadsButton()
+                    .frame(maxWidth: .infinity)
+                    .overlay(alignment: .leading) {
+                        UploadsButton()
+                    }
                     .padding()
             }
             .background {
                 Color.black.ignoresSafeArea()
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 

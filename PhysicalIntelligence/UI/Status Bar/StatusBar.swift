@@ -41,9 +41,6 @@ struct StatusBar: View {
         .padding()
         .frame(maxWidth: .infinity)
         .colorScheme(.dark)
-        .background {
-            Color.black.ignoresSafeArea()
-        }
     }
 
     var taskID: some View {

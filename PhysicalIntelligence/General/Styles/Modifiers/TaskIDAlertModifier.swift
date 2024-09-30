@@ -22,6 +22,7 @@ struct TaskIDAlertModifier: ViewModifier {
                     model.taskID = taskID.lowercased()
                     model.tryStartRecording()
                 }
+                Button("Cancel", role: .cancel) { }
             } message: {
                 Text("Name this task.")
             }
@@ -30,6 +31,7 @@ struct TaskIDAlertModifier: ViewModifier {
                 Button("Done") {
                     model.taskID = taskID.lowercased()
                 }
+                Button("Cancel", role: .cancel) { }
             } message: {
                 Text("Edit your Task ID.")
             }

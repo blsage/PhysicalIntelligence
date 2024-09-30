@@ -12,22 +12,20 @@ import AVKit
 extension Model {
     func uploadRecording() {
         guard let recording = currentRecording else {
-            print("Tried to upload recording with nil recording")
+            print("Tried to upload recording with nil currentRecording")
             return
         }
 
-        Task {
+        Task(priority: .userInitiated) {
             let recordingID = UUID().uuidString
 
-            guard let recordingFolderURL = await saveRecordingToFiles(recording, recordingID: recordingID) else {
-                print("Failed to save recording to files")
-                return
-            }
+//            guard let recordingFolderURL = await saveRecordingToFiles(recording, recordingID: recordingID) else {
+//                print("Failed to save recording to files")
+//                return
+//            }
 
-            // Generate thumbnail
             let thumbnail = generateThumbnail(from: recording)
 
-            // Create Upload object
             let upload = RecordingUpload(
                 recordingID: recordingID,
                 thumbnail: thumbnail,
@@ -35,13 +33,11 @@ extension Model {
                 location: self.currentLocation
             )
 
-            // Add the Upload object to the list of uploads
-            DispatchQueue.main.async {
-                self.uploads.append(upload)
+            Task { @MainActor in
+                uploads.insert(upload, at: 0)
             }
 
-            // Upload files
-            await uploadFiles(recordingFolderURL: recordingFolderURL, upload: upload)
+//            await uploadFiles(recordingFolderURL: recordingFolderURL, upload: upload)
         }
     }
 
@@ -51,23 +47,18 @@ extension Model {
         let recordingFolderURL = documentsDirectory.appendingPathComponent("recording_\(recordingID)")
 
         do {
-            // Create recording folder
             try fileManager.createDirectory(at: recordingFolderURL, withIntermediateDirectories: true, attributes: nil)
 
-            // Save video.mp4
             let videoURL = recordingFolderURL.appendingPathComponent("video.mp4")
             try await saveVideo(frames: recording.frames, to: videoURL)
 
-            // Save depth images
             let depthFolderURL = recordingFolderURL.appendingPathComponent("depth")
             try fileManager.createDirectory(at: depthFolderURL, withIntermediateDirectories: true, attributes: nil)
             try await saveDepthData(frames: recording.frames, to: depthFolderURL)
 
-            // Save slam_data.json
             let slamDataURL = recordingFolderURL.appendingPathComponent("slam_data.json")
             try saveSLAMData(frames: recording.frames, to: slamDataURL)
 
-            // Save metadata.json
             let metadataURL = recordingFolderURL.appendingPathComponent("metadata.json")
             try saveMetadata(recording: recording, to: metadataURL, recordingID: recordingID)
 
@@ -219,10 +210,16 @@ extension Model {
     }
 
     func generateThumbnail(from recording: RecordingData) -> UIImage {
-        guard let firstFrame = recording.frames.first,
-              let image = UIImage(data: firstFrame.imageData) else {
+        guard let firstFrame = recording.frames.first else {
+            print("Recording has no frames")
             return UIImage(systemName: "photo")!
         }
+
+        guard let image = UIImage(data: firstFrame.imageData) else {
+            print("couldn't get image data")
+            return UIImage(systemName: "photo")!
+        }
+
         return image
     }
 

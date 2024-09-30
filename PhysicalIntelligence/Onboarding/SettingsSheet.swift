@@ -16,8 +16,11 @@ struct SettingsSheet: View {
             WelcomeSheet()
                 .navigationTitle("")
                 .navigationDestination(isPresented: $model.showLDAP) {
-                        LDAPView()
-                    }
+                    LDAPView()
+                }
+                .onAppear {
+                    model.welcomeShown = true
+                }
         }
         .interactiveDismissDisabled()
     }

@@ -9,8 +9,10 @@ import SwiftUI
 
 struct RecordingView: View {
     var body: some View {
-        StatusBar()
         CameraView()
+            .overlay(alignment: .top) {
+                StatusBar()
+            }
     }
 }
 

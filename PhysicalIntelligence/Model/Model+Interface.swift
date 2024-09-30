@@ -18,7 +18,6 @@ extension Model {
     }
 
     func startRecording() {
-        startARSession()
         currentRecording = RecordingData(frames: [])
         currentRecording?.startTime = Date()
         isRecording = true
@@ -29,8 +28,6 @@ extension Model {
     func stopRecording() {
         isRecording = false
         recordingTime = 0
-        session.pause()
-        saveRecording()
         uploadRecording()
         currentRecording = nil
         timerCancellable?.cancel()

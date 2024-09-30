@@ -11,21 +11,27 @@ import SwiftData
 import SwiftUI
 import Combine
 import UIKit
+import SageKit
 
 @Observable class Model: NSObject {
-    var welcomeShown: Bool = false // persist
+    var welcomeShown: Bool = false {
+        didSet { welcomeShown.save("welcomeShown") }
+    }
     var showSettingsSheet = false
     var showUploadsSheet = false
     var showLDAPSheet = false
     var showLDAP = false
-    var ldap = "" // persist
-    var taskID = ""
+    var ldap = "" {
+        didSet { ldap.save("ldap") }
+    }
+    var taskID = "" {
+        didSet { taskID.save("taskID") }
+    }
     var showLogoutConfirmation = false
     var showSetTaskIDAlert = false
     var showEditTaskIDAlert = false
     var recordingTime: TimeInterval = 0
     var isRecording = false
-    var lastFrame: TimeInterval = 0
 
     var uploads: [RecordingUpload] = [] {
         didSet {
@@ -47,6 +53,9 @@ import UIKit
         super.init()
         loadUploads()
         resumePendingUploads()
+        welcomeShown = Bool.load("welcomeShown") ?? false
+        ldap = String.load("ldap") ?? ""
+        taskID = String.load("taskID") ?? ""
     }
 
     func setModelContext(_ context: ModelContext) {
@@ -56,17 +65,6 @@ import UIKit
     private var uploadsFileURL: URL {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         return documentsDirectory.appendingPathComponent("uploads.json")
-    }
-
-    func saveRecording() {
-        guard let recording = currentRecording, let modelContext = modelContext else { return }
-        do {
-//            modelContext.insert(recording)
-            try modelContext.save()
-            print("Recording saved successfully.")
-        } catch {
-            print("Error saving recording: \(error)")
-        }
     }
 
     func saveUploads() {

@@ -1,13 +1,13 @@
 {
-  "originHash" : "edf5d33ab7e19eab1f4c86e6a9fec85e5b4ab3eaa3fe0155a0c954bf5b0324aa",
+  "originHash" : "a7d9a145babfa16543b4e7b3484e7d62cac17fca9e8bbcfb1aba28899b79673a",
   "pins" : [
     {
       "identity" : "sagekit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/blsage/SageKit",
       "state" : {
-        "branch" : "main",
-        "revision" : "917ac619d3cb8b9d3f9b20dee79e36286e040131"
+        "revision" : "4c387ef08c93caf7d36ae3cc228d7169c439166b",
+        "version" : "0.0.1"
       }
     },
     {

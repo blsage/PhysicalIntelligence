@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28DA50B62CAA428000519DBD /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28DA50B52CAA428000519DBD /* SageKit */; };
+		28527DC72CAA84EF007313C2 /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28527DC62CAA84EF007313C2 /* SageKit */; };
 		28DA50BF2CAA6FA300519DBD /* AliasNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 28DA50BE2CAA6FA300519DBD /* AliasNetworking */; };
 /* End PBXBuildFile section */
 
@@ -28,8 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28DA50B62CAA428000519DBD /* SageKit in Frameworks */,
 				28DA50BF2CAA6FA300519DBD /* AliasNetworking in Frameworks */,
+				28527DC72CAA84EF007313C2 /* SageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +81,8 @@
 			);
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
-				28DA50B52CAA428000519DBD /* SageKit */,
 				28DA50BE2CAA6FA300519DBD /* AliasNetworking */,
+				28527DC62CAA84EF007313C2 /* SageKit */,
 			);
 			productName = PhysicalIntelligence2;
 			productReference = 2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */;
@@ -114,8 +114,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				28DA50B42CAA428000519DBD /* XCRemoteSwiftPackageReference "SageKit" */,
 				28DA50BD2CAA6FA300519DBD /* XCLocalSwiftPackageReference "../Alias/AliasNetworking" */,
+				28527DC52CAA84EF007313C2 /* XCRemoteSwiftPackageReference "SageKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2842036F2CA1207700B3F99E /* Products */;
@@ -379,6 +379,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		28527DC52CAA84EF007313C2 /* XCRemoteSwiftPackageReference "SageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/blsage/SageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
 		28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -387,26 +395,18 @@
 				minimumVersion = 0.57.0;
 			};
 		};
-		28DA50B42CAA428000519DBD /* XCRemoteSwiftPackageReference "SageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/blsage/SageKit";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		28527DC62CAA84EF007313C2 /* SageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28527DC52CAA84EF007313C2 /* XCRemoteSwiftPackageReference "SageKit" */;
+			productName = SageKit;
+		};
 		28CD72CA2CA1258F00D08DBC /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
-		28DA50B52CAA428000519DBD /* SageKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 28DA50B42CAA428000519DBD /* XCRemoteSwiftPackageReference "SageKit" */;
-			productName = SageKit;
 		};
 		28DA50BE2CAA6FA300519DBD /* AliasNetworking */ = {
 			isa = XCSwiftPackageProductDependency;

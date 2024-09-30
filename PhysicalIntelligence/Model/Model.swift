@@ -51,13 +51,18 @@ import SageKit
 
     let client = UploadClient()
 
+    private var cancellables = Set<AnyCancellable>()
+
     override init() {
         super.init()
-        loadUploads()
-        resumePendingUploads()
         welcomeShown = Bool.load("welcomeShown") ?? false
         ldap = String.load("ldap") ?? ""
         taskID = String.load("taskID") ?? ""
+        subscribeToUploads()
+        Task {
+            await loadUploads()
+            resumePendingUploads()
+        }
     }
 
     func setModelContext(_ context: ModelContext) {
@@ -70,27 +75,38 @@ import SageKit
     }
 
     func saveUploads() {
-        Task.detached(priority: .userInitiated) {
+        Task(priority: .userInitiated) { [weak self] in
+            guard let self = self else { return }
             do {
-                let data = try await JSONEncoder().encode(self.uploads)
-                try await data.write(to: self.uploadsFileURL)
+                let data = try JSONEncoder().encode(self.uploads)
+                try data.write(to: self.uploadsFileURL)
+                print("Uploads saved successfully.")
             } catch {
                 print("Failed to save uploads: \(error)")
             }
         }
     }
 
-    func loadUploads() {
-        Task.detached(priority: .userInitiated) {
-            do {
-                let data = try await Data(contentsOf: self.uploadsFileURL)
-                let uploads = try JSONDecoder().decode([RecordingUpload].self, from: data)
-                DispatchQueue.main.async {
-                    self.uploads = uploads
-                }
-            } catch {
-                print("Failed to load uploads: \(error)")
+    func loadUploads() async {
+        do {
+            let data = try Data(contentsOf: self.uploadsFileURL)
+            let uploads = try JSONDecoder().decode([RecordingUpload].self, from: data)
+            self.uploads = uploads
+            print("Uploads loaded successfully.")
+        } catch {
+            print("Failed to load uploads: \(error)")
+        }
+    }
+
+    private func subscribeToUploads() {
+        withObservationTracking {
+            _ = uploads
+        } onChange: { [weak self] in
+            guard let self = self else { return }
+            Task { @MainActor in
+                self.saveUploads()
             }
         }
     }
 }
+

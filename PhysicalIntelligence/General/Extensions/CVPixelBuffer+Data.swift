@@ -13,7 +13,7 @@ extension CVPixelBuffer {
         let context = CIContext()
         if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
             let uiImage = UIImage(cgImage: cgImage)
-            if let jpegData = uiImage.jpegData(compressionQuality: 0.8) {
+            if let jpegData = uiImage.jpegData(compressionQuality: 0.6) {
                 return jpegData
             }
         }

@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import UIKit
+import Observation
 
 enum UploadStatus: Codable {
     case pending
@@ -55,7 +56,8 @@ enum UploadStatus: Codable {
     }
 }
 
-class RecordingUpload: Identifiable, Codable {
+@Observable
+final class RecordingUpload: Identifiable, Codable {
     let id: UUID
     let recordingID: String
     var progress: Double
@@ -64,12 +66,10 @@ class RecordingUpload: Identifiable, Codable {
     let location: CLLocationCoordinate2D?
     var status: UploadStatus
 
-    enum CodingKeys: CodingKey {
-        case id, recordingID, progress, thumbnailData, taskID, location, status
-    }
-
-    init(recordingID: String, thumbnail: UIImage, taskID: String, location: CLLocationCoordinate2D?) {
-        self.id = UUID()
+    init(
+        id: UUID = UUID(), recordingID: String, thumbnail: UIImage, taskID: String, location: CLLocationCoordinate2D?
+    ) {
+        self.id = id
         self.recordingID = recordingID
         self.thumbnailData = thumbnail.jpegData(compressionQuality: 0.8) ?? Data()
         self.taskID = taskID
@@ -78,19 +78,49 @@ class RecordingUpload: Identifiable, Codable {
         self.progress = 0.0
     }
 
-    // Custom initializer for decoding
-    required init(from decoder: Decoder) throws {
+    convenience init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(UUID.self, forKey: .id)
-        self.recordingID = try container.decode(String.self, forKey: .recordingID)
-        self.progress = try container.decode(Double.self, forKey: .progress)
-        self.thumbnailData = try container.decode(Data.self, forKey: .thumbnailData)
-        self.taskID = try container.decode(String.self, forKey: .taskID)
-        self.location = try container.decodeIfPresent(CLLocationCoordinate2D.self, forKey: .location)
-        self.status = try container.decode(UploadStatus.self, forKey: .status)
+
+        let id = try container.decode(UUID.self, forKey: .id)
+        let recordingID = try container.decode(String.self, forKey: .recordingID)
+        let progress = try container.decode(Double.self, forKey: .progress)
+        let thumbnailData = try container.decode(Data.self, forKey: .thumbnailData)
+        let taskID = try container.decode(String.self, forKey: .taskID)
+        let location = try container.decodeIfPresent(CLLocationCoordinate2D.self, forKey: .location)
+        let status = try container.decode(UploadStatus.self, forKey: .status)
+
+        self.init(
+            id: id,
+            recordingID: recordingID,
+            thumbnail: UIImage(data: thumbnailData) ?? UIImage(),
+            taskID: taskID,
+            location: location
+        )
+        self.progress = progress
+        self.status = status
     }
 
-    // Custom encoding is not needed since all properties are Codable
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(recordingID, forKey: .recordingID)
+        try container.encode(progress, forKey: .progress)
+        try container.encode(thumbnailData, forKey: .thumbnailData)
+        try container.encode(taskID, forKey: .taskID)
+        try container.encodeIfPresent(location, forKey: .location)
+        try container.encode(status, forKey: .status)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case recordingID
+        case progress
+        case thumbnailData
+        case taskID
+        case location
+        case status
+    }
 }
 
 extension RecordingUpload {

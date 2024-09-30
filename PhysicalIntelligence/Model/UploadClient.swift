@@ -11,6 +11,14 @@ import AVKit
 import CoreLocation
 
 class UploadClient {
+    lazy var customSession: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 120
+        configuration.timeoutIntervalForResource = 300
+        configuration.httpMaximumConnectionsPerHost = 100
+        return URLSession(configuration: configuration)
+    }()
+
     func saveRecordingToFiles(
         _ recording: RecordingData,
         recordingID: String,
@@ -113,7 +121,6 @@ class UploadClient {
     }
 
     func uploadFiles(recordingFolderURL: URL, upload: RecordingUpload, ldap: String) async {
-        // Enumerate all files in the recording folder
         let fileManager = FileManager.default
         guard let enumerator = fileManager.enumerator(at: recordingFolderURL, includingPropertiesForKeys: nil) else {
             print("Failed to enumerate files for upload.")
@@ -128,7 +135,6 @@ class UploadClient {
             filesToUpload.append(fileURL)
         }
 
-        // Request pre-signed URLs for each file
         guard let urlMapping = await requestPresignedURLs(
             for: filesToUpload, recordingID: upload.recordingID, ldap: ldap
         ) else {
@@ -138,16 +144,21 @@ class UploadClient {
             return
         }
 
-        // Start uploading files
         await uploadFiles(filesToUpload, urlMapping: urlMapping, upload: upload)
     }
 
     func requestPresignedURLs(for files: [URL], recordingID: String, ldap: String) async -> [URL: URL]? {
-        // Prepare the list of file paths relative to the recording folder
-        let recordingFolderPath = files.first?.deletingLastPathComponent().path ?? ""
-        let fileKeys = files.map { fileURL -> String in
-            let relativePath = fileURL.path.replacingOccurrences(of: recordingFolderPath + "/", with: "")
-            return "\(ldap.trimmingCharacters(in: .whitespacesAndNewlines))/\(recordingID)/\(relativePath)"
+        guard let recordingFolderURL = files.first?.deletingLastPathComponent() else {
+            print("Recording folder URL could not be determined.")
+            return nil
+        }
+
+        let fileKeys = files.compactMap { fileURL -> String? in
+            let relativePath = fileURL.path.replacingOccurrences(of: recordingFolderURL.path + "/", with: "")
+
+            let cleanedRelativePath = relativePath.hasPrefix("/") ? String(relativePath.dropFirst()) : relativePath
+
+            return "\(ldap.trimmingCharacters(in: .whitespacesAndNewlines))/\(recordingID)/\(cleanedRelativePath)"
         }
 
         guard let url = URL(string: "https://physical-intelligence-workers.vercel.app/presigned-urls") else {
@@ -159,23 +170,22 @@ class UploadClient {
         let parameters = ["fileKeys": fileKeys]
         request.httpBody = try? JSONEncoder().encode(parameters)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.timeoutInterval = 120 // Increased timeout
 
         do {
-            let (data, _) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await customSession.data(for: request)
+            print("Received response for pre-signed URLs request: \(response)")
+
             let decoder = JSONDecoder()
             let responseDict = try decoder.decode([String: String].self, from: data)
-            // responseDict maps fileKey to presignedURL
             var urlMapping: [URL: URL] = [:]
             for (fileKey, urlString) in responseDict {
-                if let fileURL = files.first(where: { fileURL in
-                    let relativePath = fileURL.path.replacingOccurrences(of: recordingFolderPath + "/", with: "")
-                    return fileKey.hasSuffix(relativePath)
-                }), let presignedURL = URL(string: urlString) {
+                if let presignedURL = URL(string: urlString),
+                   let fileURL = files.first(where: { fileKey.hasSuffix($0.lastPathComponent) }) {
                     urlMapping[fileURL] = presignedURL
                 }
             }
             return urlMapping
-            return nil
         } catch {
             print("Error requesting pre-signed URLs: \(error)")
             return nil
@@ -186,81 +196,109 @@ class UploadClient {
         var uploadErrors: [Error] = []
         var totalBytesSent: Int64 = 0
         var totalBytesExpectedToSend: Int64 = 0
+        let maxConcurrentUploads = 10
 
         print("Starting upload for \(files.count) files")
 
-        // Calculate total expected bytes
         for fileURL in files {
             if let fileSize = try? FileManager.default.attributesOfItem(atPath: fileURL.path)[.size] as? Int64 {
                 totalBytesExpectedToSend += fileSize
+            } else {
+                print("Could not retrieve file size for \(fileURL.lastPathComponent)")
             }
         }
 
-        print("Starting upload for \(files.count) files")
+        print("Total bytes expected to send: \(totalBytesExpectedToSend)")
 
-        await withTaskGroup(of: (Int64, Error?).self) { group in
-            for fileURL in files {
-                guard let presignedURL = urlMapping[fileURL] else {
-                    print("No presigned URL found for \(fileURL.lastPathComponent)")
-                    continue
+        let batches = stride(from: 0, to: files.count, by: maxConcurrentUploads).map {
+            Array(files[$0..<min($0 + maxConcurrentUploads, files.count)])
+        }
+
+        for batch in batches {
+            await withTaskGroup(of: (Int64, Error?).self) { group in
+                for fileURL in batch {
+                    guard let presignedURL = urlMapping[fileURL] else {
+                        print("No pre-signed URL found for \(fileURL.lastPathComponent)")
+                        continue
+                    }
+
+                    group.addTask {
+                        do {
+                            var request = URLRequest(url: presignedURL)
+                            request.httpMethod = "PUT"
+                            request.timeoutInterval = 120 // Ensure timeout is set
+
+                            let fileData = try Data(contentsOf: fileURL)
+
+                            let (_, response) = try await self.customSession.upload(for: request, from: fileData)
+
+                            if let httpResponse = response as? HTTPURLResponse {
+                                print("Response status code for \(fileURL.lastPathComponent): \(httpResponse.statusCode)")
+                                if httpResponse.statusCode != 200 {
+                                    let error = NSError(
+                                        domain: "Upload",
+                                        code: httpResponse.statusCode,
+                                        userInfo: [
+                                            NSLocalizedDescriptionKey: "Failed to upload \(fileURL.lastPathComponent)"
+                                        ]
+                                    )
+                                    print(error.localizedDescription)
+                                    return (Int64(fileData.count), error)
+                                } else {
+                                    print("Successfully uploaded \(fileURL.lastPathComponent)")
+                                    return (Int64(fileData.count), nil)
+                                }
+                            } else {
+                                print("Unexpected response type for \(fileURL.lastPathComponent)")
+                                return (
+                                    Int64(fileData.count),
+                                    NSError(
+                                        domain: "Upload",
+                                        code: 0,
+                                        userInfo: [NSLocalizedDescriptionKey: "Unexpected response type"]
+                                    )
+                                )
+                            }
+                        } catch {
+                            print("Error uploading \(fileURL.lastPathComponent): \(error.localizedDescription)")
+                            return (0, error)
+                        }
+                    }
                 }
 
-                group.addTask {
-                    do {
-                        var request = URLRequest(url: presignedURL)
-                        request.httpMethod = "PUT"
+                // Process task results
+                for await (bytesSent, error) in group {
+                    totalBytesSent += bytesSent
+                    let progress: Double
+                    if totalBytesExpectedToSend > 0 {
+                        progress = Double(totalBytesSent) / Double(totalBytesExpectedToSend)
+                    } else {
+                        progress = 1.0
+                    }
 
-                        let fileData = try Data(contentsOf: fileURL)
+                    await MainActor.run {
+                        upload.progress = progress
+                        // Optionally, you can also notify the UI here if needed
+                    }
 
-                        let (_, response) = try await URLSession.shared.upload(for: request, from: fileData)
-
-                        if let httpResponse = response as? HTTPURLResponse {
-                            print("Response status code for \(fileURL.lastPathComponent): \(httpResponse.statusCode)")
-                            if httpResponse.statusCode != 200 {
-                                let error = NSError(
-                                    domain: "Upload",
-                                    code: httpResponse.statusCode,
-                                    userInfo: [NSLocalizedDescriptionKey: "Failed to upload \(fileURL.lastPathComponent)"]
-                                )
-                                print(error.localizedDescription)
-                                return (Int64(fileData.count), error)
-                            } else {
-                                print("Successfully uploaded \(fileURL.lastPathComponent)")
-                                return (Int64(fileData.count), nil)
-                            }
-                        } else {
-                            print("Unexpected response type for \(fileURL.lastPathComponent)")
-                            return (Int64(fileData.count), NSError(domain: "Upload", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unexpected response type"]))
-                        }
-                    } catch {
-                        print("Error uploading \(fileURL.lastPathComponent): \(error.localizedDescription)")
-                        return (0, error)
+                    if let error = error {
+                        uploadErrors.append(error)
                     }
                 }
             }
-
-            for await (bytesSent, error) in group {
-                totalBytesSent += bytesSent
-                let progress = Double(totalBytesSent) / Double(totalBytesExpectedToSend)
-                DispatchQueue.main.async {
-                    upload.progress = progress
-                }
-                if let error = error {
-                    uploadErrors.append(error)
-                }
-            }
         }
 
+        // Finalize upload status
         if uploadErrors.isEmpty {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 upload.status = .completed
                 upload.progress = 1.0
                 self.cleanupRecordingFiles(recordingID: upload.recordingID)
             }
         } else {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 let errorDescription = uploadErrors.first?.localizedDescription ?? "Unknown error"
-                print(errorDescription)
+                print("Upload failed with error: \(errorDescription)")
                 upload.status = .failed(errorDescription)
             }
         }
@@ -279,19 +317,17 @@ class UploadClient {
     }
 
     func resumeUpload(_ upload: RecordingUpload, ldap: String) async {
-        // Locate the recording folder in the temporary directory
-        let tempDirectory = FileManager.default.temporaryDirectory
-        let recordingFolderURL = tempDirectory.appendingPathComponent("recording_\(upload.recordingID)")
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let recordingFolderURL = documentsDirectory.appendingPathComponent("recording_\(upload.recordingID)")
 
-        // Check if the folder exists; if not, handle error
-        guard FileManager.default.fileExists(atPath: recordingFolderURL.path) else {
-            DispatchQueue.main.async {
+        guard fileManager.fileExists(atPath: recordingFolderURL.path) else {
+            await MainActor.run {
                 upload.status = .failed("Recording files not found.")
             }
             return
         }
 
-        // Resume uploading files
         await uploadFiles(recordingFolderURL: recordingFolderURL, upload: upload, ldap: ldap)
     }
 }

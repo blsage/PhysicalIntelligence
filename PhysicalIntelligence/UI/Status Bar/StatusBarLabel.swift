@@ -12,11 +12,11 @@ struct StatusBarLabel: View {
 
     var body: some View {
         Text(text)
-            .font(.callout.weight(.medium))
+            .font(.headline.weight(.medium))
             .monospaced()
             .minimumScaleFactor(0.3)
             .lineLimit(1)
-            .shadow(radius: 1)
+            .shadow(radius: 2)
     }
 }
 

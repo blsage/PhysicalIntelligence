@@ -336,7 +336,6 @@ extension Model {
                                 return (Int64(fileData.count), error)
                             } else {
                                 print("Successfully uploaded \(fileURL.lastPathComponent)")
-                                print(httpResponse)
                                 return (Int64(fileData.count), nil)
                             }
                         } else {

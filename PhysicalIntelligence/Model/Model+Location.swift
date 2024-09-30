@@ -26,16 +26,20 @@ extension Model: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    nonisolated public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
 
-        self.currentLocation = location.coordinate
-        locationUpdateContinuation?.resume(returning: ())
-        locationUpdateContinuation = nil
+        Task { @MainActor in
+            self.currentLocation = location.coordinate
+            locationUpdateContinuation?.resume(returning: ())
+            locationUpdateContinuation = nil
+        }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        locationUpdateContinuation?.resume(throwing: error)
-        locationUpdateContinuation = nil
+    nonisolated public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        Task { @MainActor in
+            locationUpdateContinuation?.resume(throwing: error)
+            locationUpdateContinuation = nil
+        }
     }
 }

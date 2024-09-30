@@ -68,7 +68,7 @@ import SageKit
     }
 
     func saveUploads() {
-        DispatchQueue.global(qos: .background).async {
+        Task(priority: .userInitiated) {
             do {
                 let data = try JSONEncoder().encode(self.uploads)
                 try data.write(to: self.uploadsFileURL)
@@ -79,7 +79,7 @@ import SageKit
     }
 
     func loadUploads() {
-        DispatchQueue.global(qos: .background).async {
+        Task(priority: .userInitiated) {
             do {
                 let data = try Data(contentsOf: self.uploadsFileURL)
                 let uploads = try JSONDecoder().decode([RecordingUpload].self, from: data)

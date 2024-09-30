@@ -16,6 +16,7 @@ struct StatusBarLabel: View {
             .monospaced()
             .minimumScaleFactor(0.3)
             .lineLimit(1)
+            .shadow(radius: 1)
     }
 }
 

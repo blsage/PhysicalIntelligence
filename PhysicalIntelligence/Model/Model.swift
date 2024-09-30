@@ -13,7 +13,7 @@ import Combine
 import UIKit
 import SageKit
 
-@Observable class Model: NSObject {
+@MainActor @Observable class Model: NSObject {
     var welcomeShown: Bool = false {
         didSet { welcomeShown.save("welcomeShown") }
     }

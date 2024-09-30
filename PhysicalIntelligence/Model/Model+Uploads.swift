@@ -19,10 +19,10 @@ extension Model {
         Task(priority: .userInitiated) {
             let recordingID = UUID().uuidString
 
-//            guard let recordingFolderURL = await saveRecordingToFiles(recording, recordingID: recordingID) else {
-//                print("Failed to save recording to files")
-//                return
-//            }
+            guard let recordingFolderURL = await saveRecordingToFiles(recording, recordingID: recordingID) else {
+                print("Failed to save recording to files")
+                return
+            }
 
             let thumbnail = generateThumbnail(from: recording)
 

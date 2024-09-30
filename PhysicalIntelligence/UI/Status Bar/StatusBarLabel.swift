@@ -12,7 +12,7 @@ struct StatusBarLabel: View {
 
     var body: some View {
         Text(text)
-            .font(.callout)
+            .font(.callout.weight(.medium))
             .monospaced()
             .minimumScaleFactor(0.3)
             .lineLimit(1)

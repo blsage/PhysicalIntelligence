@@ -49,6 +49,8 @@ import SageKit
     var locationUpdateContinuation: CheckedContinuation<Void, Error>?
     var currentLocation: CLLocationCoordinate2D?
 
+    let client = UploadClient()
+
     override init() {
         super.init()
         loadUploads()
@@ -68,10 +70,10 @@ import SageKit
     }
 
     func saveUploads() {
-        Task(priority: .userInitiated) {
+        Task.detached(priority: .userInitiated) {
             do {
-                let data = try JSONEncoder().encode(self.uploads)
-                try data.write(to: self.uploadsFileURL)
+                let data = try await JSONEncoder().encode(self.uploads)
+                try await data.write(to: self.uploadsFileURL)
             } catch {
                 print("Failed to save uploads: \(error)")
             }
@@ -79,9 +81,9 @@ import SageKit
     }
 
     func loadUploads() {
-        Task(priority: .userInitiated) {
+        Task.detached(priority: .userInitiated) {
             do {
-                let data = try Data(contentsOf: self.uploadsFileURL)
+                let data = try await Data(contentsOf: self.uploadsFileURL)
                 let uploads = try JSONDecoder().decode([RecordingUpload].self, from: data)
                 DispatchQueue.main.async {
                     self.uploads = uploads
@@ -91,5 +93,4 @@ import SageKit
             }
         }
     }
-
 }

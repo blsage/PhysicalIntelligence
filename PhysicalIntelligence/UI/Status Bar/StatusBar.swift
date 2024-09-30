@@ -49,7 +49,7 @@ struct StatusBar: View {
             model.showEditTaskIDAlert = true
         } label: {
             StatusBarLabel(text: model.taskID)
-                .frame(maxWidth: maxSideWidth, alignment: .trailing)
+                .frame(maxWidth: maxSideWidth)
         }
         .foregroundStyle(.white)
     }
@@ -60,7 +60,7 @@ struct StatusBar: View {
             model.showLDAPSheet = true
         } label: {
             StatusBarLabel(text: model.ldap)
-                .frame(maxWidth: maxSideWidth, alignment: .leading)
+                .frame(maxWidth: maxSideWidth)
         }
         .foregroundStyle(.white)
     }

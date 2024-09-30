@@ -46,7 +46,9 @@ extension Model: ARSessionDelegate {
                 depthConfidence: depthConfidence
             )
 
-            await currentRecording?.frames.append(recordedFrame)
+            Task { @MainActor in
+                currentRecording?.frames.append(recordedFrame)
+            }
         }
     }
 }

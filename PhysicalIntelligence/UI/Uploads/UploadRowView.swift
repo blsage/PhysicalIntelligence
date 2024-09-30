@@ -12,6 +12,7 @@ struct UploadRowView: View {
     var upload: RecordingUpload
 
     @State var uiImage: UIImage?
+    @State var done = false
 
     var body: some View {
         HStack {
@@ -27,8 +28,20 @@ struct UploadRowView: View {
                 .onAppear {
                     uiImage = UIImage(data: upload.thumbnailData)
                 }
-                .loadingOverlay(Int(upload.progress * 100), done: false)
+                .loadingOverlay(Int(upload.progress * 100), done: done)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
+                .onAppear {
+                    done = upload.progress == 1
+                }
+                .onChange(of: upload.progress) {
+                    if upload.progress == 1 {
+                        withAnimation(
+                            .spring.delay(0.5)
+                        ) {
+                            done = true
+                        }
+                    }
+                }
 
             VStack(alignment: .leading) {
                 Text(upload.taskID)

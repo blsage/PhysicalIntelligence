@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		28DA50B62CAA428000519DBD /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28DA50B52CAA428000519DBD /* SageKit */; };
+		28DA50BF2CAA6FA300519DBD /* AliasNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 28DA50BE2CAA6FA300519DBD /* AliasNetworking */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28DA50B62CAA428000519DBD /* SageKit in Frameworks */,
+				28DA50BF2CAA6FA300519DBD /* AliasNetworking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +82,7 @@
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
 				28DA50B52CAA428000519DBD /* SageKit */,
+				28DA50BE2CAA6FA300519DBD /* AliasNetworking */,
 			);
 			productName = PhysicalIntelligence2;
 			productReference = 2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */;
@@ -112,6 +115,7 @@
 			packageReferences = (
 				28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				28DA50B42CAA428000519DBD /* XCRemoteSwiftPackageReference "SageKit" */,
+				28DA50BD2CAA6FA300519DBD /* XCLocalSwiftPackageReference "../Alias/AliasNetworking" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2842036F2CA1207700B3F99E /* Products */;
@@ -367,6 +371,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		28DA50BD2CAA6FA300519DBD /* XCLocalSwiftPackageReference "../Alias/AliasNetworking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Alias/AliasNetworking;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -396,6 +407,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 28DA50B42CAA428000519DBD /* XCRemoteSwiftPackageReference "SageKit" */;
 			productName = SageKit;
+		};
+		28DA50BE2CAA6FA300519DBD /* AliasNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AliasNetworking;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

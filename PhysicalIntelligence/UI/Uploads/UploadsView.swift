@@ -16,6 +16,7 @@ struct UploadsView: View {
             List(model.uploads) { upload in
                 UploadRowView(upload: upload)
             }
+            .listStyle(.plain)
             .navigationTitle("Uploads")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

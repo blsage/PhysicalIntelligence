@@ -55,8 +55,14 @@ struct StatusBar: View {
     }
 
     var ldap: some View {
-        StatusBarLabel(text: model.ldap)
-            .frame(maxWidth: maxSideWidth, alignment: .leading)
+        Button {
+            @Bindable var model = model
+            model.showLDAPSheet = true
+        } label: {
+            StatusBarLabel(text: model.ldap)
+                .frame(maxWidth: maxSideWidth, alignment: .leading)
+        }
+        .foregroundStyle(.white)
     }
 }
 

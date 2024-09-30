@@ -32,6 +32,9 @@ struct UploadRowView: View {
 
             VStack(alignment: .leading) {
                 Text(upload.taskID)
+                Text("Progress: \(Int(upload.progress * 100))%")
+                    .font(.subtitle)
+                    .foregroundStyle(.secondary)
             }
             Spacer()
         }

@@ -259,7 +259,6 @@ extension Model {
             return "\(self.ldap)/\(recordingID)/\(relativePath)"
         }
 
-        // Replace with your server URL that provides pre-signed URLs
         guard let url = URL(string: "https://physical-intelligence-workers.vercel.app/presigned-urls") else {
             return nil
         }

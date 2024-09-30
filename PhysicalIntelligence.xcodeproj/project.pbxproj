@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		28DA50B32CAA416F00519DBD /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28DA50B22CAA416F00519DBD /* SageKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhysicalIntelligence.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28DA50B32CAA416F00519DBD /* SageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				284203702CA1207700B3F99E /* PhysicalIntelligence */,
+				28DA50B12CAA416F00519DBD /* Frameworks */,
 				2842036F2CA1207700B3F99E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +49,13 @@
 				2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		28DA50B12CAA416F00519DBD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -66,6 +79,7 @@
 			);
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
+				28DA50B22CAA416F00519DBD /* SageKit */,
 			);
 			productName = PhysicalIntelligence2;
 			productReference = 2842036E2CA1207700B3F99E /* PhysicalIntelligence.app */;
@@ -376,6 +390,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		28DA50B22CAA416F00519DBD /* SageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 287D83232CA908E8009D31AF /* XCLocalSwiftPackageReference "../../packages/SageKit" */;
+			productName = SageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

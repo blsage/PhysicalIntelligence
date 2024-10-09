@@ -10,14 +10,7 @@ import UIKit
 import AVKit
 import CoreLocation
 
-class UploadClient {
-    lazy var customSession: URLSession = {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 120
-        configuration.timeoutIntervalForResource = 300
-        configuration.httpMaximumConnectionsPerHost = 100
-        return URLSession(configuration: configuration)
-    }()
+extension FetchingClient {
 
     func saveRecordingToFiles(
         _ recording: RecordingData,
@@ -173,7 +166,7 @@ class UploadClient {
         request.timeoutInterval = 120 // Increased timeout
 
         do {
-            let (data, response) = try await customSession.data(for: request)
+            let (data, response) = try await session.data(for: request)
             print("Received response for pre-signed URLs request: \(response)")
 
             let decoder = JSONDecoder()
@@ -230,7 +223,7 @@ class UploadClient {
 
                             let fileData = try Data(contentsOf: fileURL)
 
-                            let (_, response) = try await self.customSession.upload(for: request, from: fileData)
+                            let (_, response) = try await self.session.upload(for: request, from: fileData)
 
                             if let httpResponse = response as? HTTPURLResponse {
                                 print("Response status code for \(fileURL.lastPathComponent): \(httpResponse.statusCode)")

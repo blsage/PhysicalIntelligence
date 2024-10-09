@@ -26,7 +26,7 @@ extension Model {
                 return
             }
 
-            let thumbnail = await self.client.generateThumbnail(from: recording)
+            let thumbnail = self.client.generateThumbnail(from: recording)
 
             let upload = RecordingUpload(
                 recordingID: recordingID,

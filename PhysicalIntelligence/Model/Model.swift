@@ -34,9 +34,7 @@ import SageKit
     var isRecording = false
 
     var uploads: [RecordingUpload] = [] {
-        didSet {
-            saveUploads()
-        }
+        didSet { saveUploads() }
     }
 
     var timerCancellable: AnyCancellable?
@@ -49,7 +47,7 @@ import SageKit
     var locationUpdateContinuation: CheckedContinuation<Void, Error>?
     var currentLocation: CLLocationCoordinate2D?
 
-    let client = UploadClient()
+    let client = FetchingClient()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -109,4 +107,3 @@ import SageKit
         }
     }
 }
-

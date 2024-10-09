@@ -8,37 +8,38 @@
 import Foundation
 
 extension FetchingClient {
-    @discardableResult public func data<E: Endpoint>(
+    @discardableResult public func data(
         from url: URL,
+        method: HTTPMethod = .get,
         body: Data? = nil,
-        endpoint: E
+        contentType: String? = nil,
+        additionalHeaders: [String: String]? = nil
     ) async throws -> Data {
         print("fetching from \(url)")
         let request = makeRequest(
             from: url,
+            method: method,
             body: body,
-            endpoint: endpoint
+            contentType: contentType,
+            additionalHeaders: additionalHeaders
         )
         return try await fetchAndHandle(using: request)
     }
 
-    private func makeRequest<E: Endpoint>(
+    private func makeRequest(
         from url: URL,
+        method: HTTPMethod,
         body: Data?,
-        endpoint: E
+        contentType: String?,
+        additionalHeaders: [String: String]?
     ) -> URLRequest {
         var request = URLRequest(url: url)
 
-        request.httpMethod = endpoint.method.rawValue
+        request.httpMethod = method.rawValue
         request.httpBody = body
-        request.addAuthorization(token: endpoint.token)
-        request.addContentType(for: endpoint.method, defaultType: endpoint.contentType ?? "application/json")
+        request.addContentType(for: method, defaultType: contentType ?? "application/json")
 
-        if let timeout = endpoint.timeout {
-            request.timeoutInterval = timeout
-        }
-
-        endpoint.additionalHeaders?.forEach { key, value in
+        additionalHeaders?.forEach { key, value in
             request.setValue(value, forHTTPHeaderField: key)
         }
 

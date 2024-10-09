@@ -12,6 +12,10 @@ class FetchingClient {
         URL(string: "https://physical-intelligence-workers.vercel.app")!
     }
 
+    func url(for path: String) -> URL {
+        baseURL.appending(path: path)
+    }
+
     let session: URLSession = {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 120

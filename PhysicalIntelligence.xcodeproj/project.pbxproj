@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		28527DC72CAA84EF007313C2 /* SageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 28527DC62CAA84EF007313C2 /* SageKit */; };
-		28DA50BF2CAA6FA300519DBD /* AliasNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 28DA50BE2CAA6FA300519DBD /* AliasNetworking */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +27,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28DA50BF2CAA6FA300519DBD /* AliasNetworking in Frameworks */,
 				28527DC72CAA84EF007313C2 /* SageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,7 +79,6 @@
 			);
 			name = PhysicalIntelligence;
 			packageProductDependencies = (
-				28DA50BE2CAA6FA300519DBD /* AliasNetworking */,
 				28527DC62CAA84EF007313C2 /* SageKit */,
 			);
 			productName = PhysicalIntelligence2;
@@ -114,7 +111,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
-				28DA50BD2CAA6FA300519DBD /* XCLocalSwiftPackageReference "../Alias/AliasNetworking" */,
 				28527DC52CAA84EF007313C2 /* XCRemoteSwiftPackageReference "SageKit" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -371,13 +367,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		28DA50BD2CAA6FA300519DBD /* XCLocalSwiftPackageReference "../Alias/AliasNetworking" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Alias/AliasNetworking;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		28527DC52CAA84EF007313C2 /* XCRemoteSwiftPackageReference "SageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -407,10 +396,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 28CD72C92CA1255A00D08DBC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
-		28DA50BE2CAA6FA300519DBD /* AliasNetworking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AliasNetworking;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
